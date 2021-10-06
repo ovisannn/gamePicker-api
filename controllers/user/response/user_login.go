@@ -12,7 +12,7 @@ type UserResponse struct {
 	Email           string
 	Name            string
 	SteamProfile_id string
-	Detail_id       string
+	Detail_id       int
 	Created_at      time.Time
 	Updated_at      time.Time
 }

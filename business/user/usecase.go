@@ -7,8 +7,8 @@ import (
 )
 
 type UserUseCase struct {
-	Repo           Repository
-	contextTimeout context.Context
+	Repo Repository
+	// contextTimeout context.Context
 }
 
 func NewUserUseCase(repo Repository, timeout time.Duration) UseCase {

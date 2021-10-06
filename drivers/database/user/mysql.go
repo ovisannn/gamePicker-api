@@ -48,7 +48,10 @@ func (DB *MysqlUserRepository) GetUser_byID(ctx context.Context, user_id int) (u
 
 func (DB *MysqlUserRepository) CreateUser(ctx context.Context, data user.Domain) (user.Domain, error) {
 	insertUser := FromDomain(data)
-	result := DB.Conn.Table("user").Create(&insertUser)
+	// fmt.Println(insertUser.SteamProfile_id)
+	const raw = `INSERT INTO user (username,password,email,name,steamProfile_id,detail_id,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?)`
+	// result := DB.Conn.Table("user").Select("user_id", "username", "password", "email", "name", "steamProfile_id", "created_at", "updated_at").Create(&insertUser)
+	result := DB.Conn.Exec(raw, insertUser.Username, insertUser.Password, insertUser.Email, insertUser.Name, insertUser.SteamProfile_id, insertUser.Detail_id, insertUser.Created_at, insertUser.Updated_at)
 	if result.Error != nil {
 		return user.Domain{}, result.Error
 	}
