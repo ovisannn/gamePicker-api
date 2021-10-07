@@ -72,16 +72,16 @@ func (DB *MysqlUserRepository) CreateUser(ctx context.Context, data user.Domain)
 	return insertUser.ToDomain(), nil
 }
 
-func (DB *MysqlUserRepository) UpdateMoneySaved(ctx context.Context, amount int, id int) (wallet.Domain, error) {
+func (DB *MysqlUserRepository) UpdateMoneySaved(ctx context.Context, data wallet.Domain, id int) (wallet.Domain, error) {
 	const raw_UpdateWallet = `UPDATE wallet SET moneySaved = ? WHERE id_wallet = ?`
 	NewWallet := FromDomainWallet(data)
-	result := DB.Conn.Raw(raw_UpdateWallet, amount, id).Scan(&NewWallet)
-	if result.Error != nil{
+	result := DB.Conn.Raw(raw_UpdateWallet, NewWallet.MoneySaved, id).Scan(&NewWallet)
+	if result.Error != nil {
 		return wallet.Domain{}, result.Error
 	}
-	return wallet.ToDomainWallet(), nil
+	return NewWallet.ToDomainWallet(), nil
 }
 func (DB *MysqlUserRepository) UpdateMoneyTarget() {}
 func (DB *MysqlUserRepository) UpdateMoney()       {}
 
-get wallet
+// get wallet

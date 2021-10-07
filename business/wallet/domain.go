@@ -1,5 +1,7 @@
 package wallet
 
+import "context"
+
 type Domain struct {
 	Id_wallet   int
 	MoneySaved  int
@@ -8,7 +10,9 @@ type Domain struct {
 }
 
 type UseCase interface {
+	InsertWalletController(ctx context.Context, data Domain, id int) (Domain, error)
 }
 
 type Repository interface {
+	UpdateMoneySaved(ctx context.Context, data Domain, id int) (Domain, error)
 }

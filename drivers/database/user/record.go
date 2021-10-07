@@ -2,7 +2,7 @@ package user
 
 import (
 	_user "gamePicker/business/user"
-	"gamePicker/business/wallet"
+	_wallet "gamePicker/business/wallet"
 	"time"
 )
 
@@ -108,7 +108,7 @@ func ToDomains(u []User) []_user.Domain {
 	return Domains
 }
 
-func FromDomainWallet(domain wallet.Domain) Wallet {
+func FromDomainWallet(domain _wallet.Domain) Wallet {
 	return Wallet{
 		Id_wallet:   domain.Id_wallet,
 		MoneySaved:  domain.MoneySaved,
@@ -117,11 +117,11 @@ func FromDomainWallet(domain wallet.Domain) Wallet {
 	}
 }
 
-func ToDomainWallet(waley *Wallet) wallet.Domain {
-	return wallet.Domain{
-		Id_wallet:   waley.Id_wallet,
-		MoneySaved:  waley.MoneySaved,
-		MoneyTarget: waley.MoneyTarget,
-		IndieWallet: waley.IndieWallet,
+func (wallet *Wallet) ToDomainWallet() _wallet.Domain {
+	return _wallet.Domain{
+		Id_wallet:   wallet.Id_wallet,
+		MoneySaved:  wallet.MoneySaved,
+		MoneyTarget: wallet.MoneyTarget,
+		IndieWallet: wallet.IndieWallet,
 	}
 }

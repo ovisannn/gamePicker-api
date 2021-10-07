@@ -24,10 +24,6 @@ func init() {
 	}
 }
 
-//func DbMigrate(db *gorm.DB) {
-//	db.AutoMigrate(&_userDb.Users{})
-//}
-
 func main() {
 	configDB := _mysqlDriver.ConfigDB{
 		DB_Username: viper.GetString(`database.user`),
