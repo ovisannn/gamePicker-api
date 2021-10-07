@@ -5,6 +5,7 @@ import (
 	"gamePicker/business/user"
 	_user "gamePicker/business/user"
 	"gamePicker/business/wallet"
+	_wallet "gamePicker/business/wallet"
 
 	"gorm.io/gorm"
 )
@@ -15,6 +16,16 @@ type MysqlUserRepository struct {
 
 func NewMysqlUserRepository(conn *gorm.DB) _user.Repository {
 	return &MysqlUserRepository{
+		Conn: conn,
+	}
+}
+
+type MysqlWalletRepository struct {
+	Conn *gorm.DB
+}
+
+func NewMysqlWalletRepository(conn *gorm.DB) _wallet.Repository {
+	return &MysqlWalletRepository{
 		Conn: conn,
 	}
 }
@@ -72,10 +83,10 @@ func (DB *MysqlUserRepository) CreateUser(ctx context.Context, data user.Domain)
 	return insertUser.ToDomain(), nil
 }
 
-func (DB *MysqlUserRepository) UpdateMoneySaved(ctx context.Context, data wallet.Domain, id int) (wallet.Domain, error) {
-	const raw_UpdateWallet = `UPDATE wallet SET moneySaved = ? WHERE id_wallet = ?`
+func (DB *MysqlWalletRepository) UpdateMoneySaved(ctx context.Context, data wallet.Domain, id int) (wallet.Domain, error) {
+	const raw_UpdateWallet = `UPDATE wallet SET moneySaved = moneySaved+?, moneyTarget = ? WHERE id_wallet = ?`
 	NewWallet := FromDomainWallet(data)
-	result := DB.Conn.Raw(raw_UpdateWallet, NewWallet.MoneySaved, id).Scan(&NewWallet)
+	result := DB.Conn.Raw(raw_UpdateWallet, NewWallet.MoneySaved, NewWallet.MoneyTarget, id).Scan(&NewWallet)
 	if result.Error != nil {
 		return wallet.Domain{}, result.Error
 	}

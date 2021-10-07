@@ -3,6 +3,7 @@ package handler
 import (
 	"gamePicker/business/wallet"
 	"gamePicker/controllers"
+	walletResponse "gamePicker/controllers/wallet/response"
 	"net/http"
 	"strconv"
 
@@ -31,5 +32,5 @@ func (handler WalletController) InsertWalletController(c echo.Context) error {
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, wallet)
+	return controllers.NewSuccessResponse(c, walletResponse.FromDomainWallet(wallet))
 }
