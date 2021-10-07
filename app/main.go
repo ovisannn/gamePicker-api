@@ -14,6 +14,9 @@ import (
 	_userUseCase "gamePicker/business/user"
 	_userController "gamePicker/controllers/user"
 	_userRepository "gamePicker/drivers/database/user"
+
+	_walleyUseCase "gamePicker/business/wallet"
+	_walleyController "gamePicker/controllers/wallet"
 )
 
 func init() {
@@ -23,10 +26,6 @@ func init() {
 		panic(err)
 	}
 }
-
-//func DbMigrate(db *gorm.DB) {
-//	db.AutoMigrate(&_userDb.Users{})
-//}
 
 func main() {
 	configDB := _mysqlDriver.ConfigDB{
@@ -47,8 +46,13 @@ func main() {
 	userUseCase := _userUseCase.NewUserUseCase(userRepository, timeoutContext)
 	userController := _userController.NewUserController(userUseCase)
 
+	walletRepository := _userRepository.NewMysqlWalletRepository(Conn)
+	walletUseCase := _walleyUseCase.NewWalletUseCase(walletRepository)
+	walletController := _walleyController.NewWalletController(walletUseCase)
+
 	routesInit := routes.ControllerList{
-		UserController: *userController,
+		UserController:   *userController,
+		WalletController: *walletController,
 	}
 
 	routesInit.RouteRegister(*e)

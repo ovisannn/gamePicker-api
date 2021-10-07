@@ -6,6 +6,7 @@ import (
 	"gamePicker/controllers/user/request"
 	"gamePicker/controllers/user/response"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -36,7 +37,6 @@ func (handler UserController) Login(c echo.Context) error {
 }
 
 func (handler UserController) GetUserController(c echo.Context) error {
-
 	ctx := c.Request().Context()
 	user, err := handler.UserUseCase.GetUserController(ctx)
 	if err != nil {
@@ -68,4 +68,15 @@ func (handler UserController) CreateUserController(c echo.Context) error {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
 	return controllers.NewSuccessResponse(c, response.CreateFromDomain(user))
+}
+
+func (handler UserController) GetUserByIDController(c echo.Context) error {
+	// strconv.Atoi("-42")
+	Id, _ := strconv.Atoi(c.Param("id"))
+	ctx := c.Request().Context()
+	user, err := handler.UserUseCase.GetUserByIDController(ctx, Id)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+	return controllers.NewSuccessResponse(c, user)
 }
