@@ -1,7 +1,6 @@
 package user
 
 import (
-	"gamePicker/business/user"
 	_user "gamePicker/business/user"
 	"time"
 )
@@ -12,8 +11,8 @@ type User struct {
 	Password        string
 	Email           string
 	Name            string
-	SteamProfile_id string
-	Detail_id       string
+	SteamProfile_id string `gorm:"steamProfile_id" json:"steamProfile_id"`
+	Detail_id       int
 	Created_at      time.Time
 	Updated_at      time.Time
 }
@@ -32,7 +31,7 @@ func (user *User) ToDomain() _user.Domain {
 	}
 }
 
-func FromDomain(domain user.Domain) User {
+func FromDomain(domain _user.Domain) User {
 	return User{
 		Id_user:         domain.Id_user,
 		Username:        domain.Username,
@@ -46,8 +45,8 @@ func FromDomain(domain user.Domain) User {
 	}
 }
 
-func ToDomains(u []User) []user.Domain {
-	var Domains []user.Domain
+func ToDomains(u []User) []_user.Domain {
+	var Domains []_user.Domain
 
 	for _, val := range u {
 		Domains = append(Domains, val.ToDomain())
