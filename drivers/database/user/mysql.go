@@ -4,6 +4,7 @@ import (
 	"context"
 	"gamePicker/business/user"
 	_user "gamePicker/business/user"
+	"gamePicker/business/wallet"
 
 	"gorm.io/gorm"
 )
@@ -60,10 +61,10 @@ func (DB *MysqlUserRepository) CreateUser(ctx context.Context, data user.Domain)
 	var getMax int
 	maxRaw := DB.Conn.Table("user").Select("max(id_user)").Row()
 	maxRaw.Scan(&getMax)
-	result = DB.Conn.Exec(raw_detail, getMax, "", getMax, "", getMax, "", "")
-	result = DB.Conn.Exec(raw_inven, getMax, "", "")
-	result = DB.Conn.Exec(raw_wallet, getMax, 0, 0, 0)
-	result = DB.Conn.Exec(raw_update, getMax, getMax)
+	DB.Conn.Exec(raw_detail, getMax, "", getMax, "", getMax, "", "")
+	DB.Conn.Exec(raw_inven, getMax, "", "")
+	DB.Conn.Exec(raw_wallet, getMax, 0, 0, 0)
+	DB.Conn.Exec(raw_update, getMax, getMax)
 	// fmt.Println(getBiggest_id)
 	if result.Error != nil {
 		return user.Domain{}, result.Error
@@ -71,6 +72,16 @@ func (DB *MysqlUserRepository) CreateUser(ctx context.Context, data user.Domain)
 	return insertUser.ToDomain(), nil
 }
 
-func (DB *MysqlUserRepository) UpdateMoneySaved()  {}
+func (DB *MysqlUserRepository) UpdateMoneySaved(ctx context.Context, amount int, id int) (wallet.Domain, error) {
+	const raw_UpdateWallet = `UPDATE wallet SET moneySaved = ? WHERE id_wallet = ?`
+	NewWallet := FromDomainWallet(data)
+	result := DB.Conn.Raw(raw_UpdateWallet, amount, id).Scan(&NewWallet)
+	if result.Error != nil{
+		return wallet.Domain{}, result.Error
+	}
+	return wallet.ToDomainWallet(), nil
+}
 func (DB *MysqlUserRepository) UpdateMoneyTarget() {}
 func (DB *MysqlUserRepository) UpdateMoney()       {}
+
+get wallet
