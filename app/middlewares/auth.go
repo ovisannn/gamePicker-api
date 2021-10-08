@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"miniProject/controllers"
+	"gamePicker/controllers"
 	"net/http"
 	"time"
 
