@@ -19,3 +19,11 @@ func (wl *WalletUseCase) InsertWalletController(ctx context.Context, data Domain
 	}
 	return wallet, nil
 }
+
+func (wl *WalletUseCase) GetWalletByIDController(ctx context.Context, id int) (Domain, error) {
+	wallet, err := wl.Repo.GetWalletByID(ctx, id)
+	if err != nil {
+		return Domain{}, err
+	}
+	return wallet, nil
+}

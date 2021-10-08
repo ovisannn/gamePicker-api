@@ -23,4 +23,5 @@ func (cl *ControllerList) RouteRegister(e echo.Echo) {
 	e.GET("user/:id", cl.UserController.GetUserByIDController)
 	// wallet
 	e.PUT("wallet/update/:id", cl.WalletController.InsertWalletController)
+	e.GET("wallet/Get/:id", cl.WalletController.GetWalletByIDController)
 }

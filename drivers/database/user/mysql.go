@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"fmt"
 	"gamePicker/business/user"
 	_user "gamePicker/business/user"
 	"gamePicker/business/wallet"
@@ -92,9 +93,10 @@ func (DB *MysqlWalletRepository) UpdateMoneySaved(ctx context.Context, data wall
 	}
 	return NewWallet.ToDomainWallet(), nil
 }
-func (DB *MysqlUserRepository) GetWalletByID(ctx context.Context, id int) (wallet.Domain, error) {
+func (DB *MysqlWalletRepository) GetWalletByID(ctx context.Context, id int) (wallet.Domain, error) {
 	var NewWallet Wallet
-	result := DB.Conn.Table("wallet").Where("id_wallet = ?", id).First(&NewWallet)
+	result := DB.Conn.Table("wallet").Where("id_wallet = ?", id).Scan(&NewWallet)
+	fmt.Println(NewWallet.MoneySaved)
 	if result.Error != nil {
 		return wallet.Domain{}, result.Error
 	}

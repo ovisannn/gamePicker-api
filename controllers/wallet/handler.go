@@ -23,9 +23,9 @@ func NewWalletController(walletUseCase wallet.UseCase) *WalletController {
 func (handler WalletController) InsertWalletController(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	walletInsert := wallet.Domain{}
-	walletInsert.IndieWallet, _ = strconv.ParseFloat(c.FormValue("indieWallet"), 64)
-	walletInsert.MoneyTarget, _ = strconv.ParseFloat(c.FormValue("moneyTarget"), 64)
-	walletInsert.MoneySaved, _ = strconv.ParseFloat(c.FormValue("moneySaved"), 64)
+	walletInsert.IndieWallet, _ = strconv.Atoi(c.FormValue("indieWallet"))
+	walletInsert.MoneyTarget, _ = strconv.Atoi(c.FormValue("moneyTarget"))
+	walletInsert.MoneySaved, _ = strconv.Atoi(c.FormValue("moneySaved"))
 
 	ctx := c.Request().Context()
 	wallet, err := handler.WalletUseCae.InsertWalletController(ctx, walletInsert, id)
@@ -33,4 +33,15 @@ func (handler WalletController) InsertWalletController(c echo.Context) error {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
 	return controllers.NewSuccessResponse(c, walletResponse.FromDomainWallet(wallet))
+}
+
+func (handler WalletController) GetWalletByIDController(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	ctx := c.Request().Context()
+	wallet, err := handler.WalletUseCae.GetWalletByIDController(ctx, id)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+	return controllers.NewSuccessResponse(c, wallet)
 }
