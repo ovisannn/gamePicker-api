@@ -15,4 +15,5 @@ type UseCase interface {
 
 type Repository interface {
 	UpdateMoneySaved(ctx context.Context, data Domain, id int) (Domain, error)
+	GetWalletByID(ctx context.Context, id int) (Domain, error)
 }
