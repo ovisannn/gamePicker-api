@@ -35,10 +35,10 @@ type User_inventory struct {
 }
 
 type Wallet struct {
-	Id_wallet   int
-	MoneySaved  float64
-	MoneyTarget float64
-	IndieWallet float64
+	Id_wallet   int `gorm:"id_wallet"`
+	MoneySaved  int
+	MoneyTarget int
+	IndieWallet int
 }
 
 // wishList

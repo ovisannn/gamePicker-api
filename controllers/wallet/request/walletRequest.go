@@ -1,6 +1,6 @@
 package request
 
 type WalletRequest struct {
-	MoneyTarget float64 `json:"moneyTarget"`
-	MoneySaved  float64 `json:"moneySaved"`
+	MoneyTarget float32 `json:"moneyTarget"`
+	MoneySaved  float32 `json:"moneySaved"`
 }
