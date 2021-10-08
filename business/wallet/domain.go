@@ -3,10 +3,10 @@ package wallet
 import "context"
 
 type Domain struct {
-	Id_wallet   int
-	MoneySaved  int
-	MoneyTarget int
-	IndieWallet int
+	Id_wallet   int `json:"id_wallet"`
+	MoneySaved  int `json:"moneySaved"`
+	MoneyTarget int `json:"moneyTarget"`
+	IndieWallet int `json:"indieWallet"`
 }
 
 type UseCase interface {

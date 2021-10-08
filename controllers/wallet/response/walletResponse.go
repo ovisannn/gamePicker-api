@@ -3,8 +3,10 @@ package response
 import "gamePicker/business/wallet"
 
 type WalletResponse struct {
-	MoneyTarget int `json:"moneyTarget"`
+	Id_wallet   int `json:"id_wallet"`
 	MoneySaved  int `json:"moneySaved"`
+	MoneyTarget int `json:"moneyTarget"`
+	IndieWallet int `json:"indieWallet"`
 }
 
 func FromDomainWallet(domain wallet.Domain) WalletResponse {

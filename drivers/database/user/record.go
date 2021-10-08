@@ -12,7 +12,7 @@ type User struct {
 	Password        string
 	Email           string
 	Name            string
-	SteamProfile_id string `gorm:"steamProfile_id" json:"steamProfile_id"`
+	SteamProfile_id string `json:"steamProfile_id"`
 	Detail_id       int
 	Created_at      time.Time
 	Updated_at      time.Time
@@ -35,10 +35,10 @@ type User_inventory struct {
 }
 
 type Wallet struct {
-	Id_wallet   int `gorm:"id_wallet"`
-	MoneySaved  int
-	MoneyTarget int
-	IndieWallet int
+	Id_wallet   int `json:"id_wallet"`
+	MoneySaved  int `json:"moneySaved"`
+	MoneyTarget int `json:"moneyTarget"`
+	IndieWallet int `json:"indieWallet"`
 }
 
 // wishList
