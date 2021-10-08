@@ -5,6 +5,7 @@ import (
 	"time"
 
 	// _userDb "gamePicker/drivers/database/user"
+	_middleware "gamePicker/app/middlewares"
 	"gamePicker/app/routes"
 	_mysqlDriver "gamePicker/drivers/mysql"
 
@@ -36,6 +37,11 @@ func main() {
 		DB_Database: viper.GetString(`database.name`),
 	}
 
+	configJWT := _middleware.ConfigJwt{
+		SecretJWT:       viper.GetString(`jwt.secret`),
+		ExpiresDuration: viper.GetInt(`jwt.expired`),
+	}
+
 	Conn := configDB.InitialDB()
 
 	e := echo.New()
@@ -51,6 +57,7 @@ func main() {
 	walletController := _walleyController.NewWalletController(walletUseCase)
 
 	routesInit := routes.ControllerList{
+		JWTConfig:        configJWT.Init(),
 		UserController:   *userController,
 		WalletController: *walletController,
 	}
