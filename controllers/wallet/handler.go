@@ -23,9 +23,9 @@ func NewWalletController(walletUseCase wallet.UseCase) *WalletController {
 func (handler WalletController) InsertWalletController(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	walletInsert := wallet.Domain{}
-	walletInsert.IndieWallet, _ = strconv.Atoi(c.FormValue("indieWallet"))
-	walletInsert.MoneyTarget, _ = strconv.Atoi(c.FormValue("moneyTarget"))
-	walletInsert.MoneySaved, _ = strconv.Atoi(c.FormValue("moneySaved"))
+	walletInsert.IndieWallet, _ = strconv.ParseFloat(c.FormValue("indieWallet"), 64)
+	walletInsert.MoneyTarget, _ = strconv.ParseFloat(c.FormValue("moneyTarget"), 64)
+	walletInsert.MoneySaved, _ = strconv.ParseFloat(c.FormValue("moneySaved"), 64)
 
 	ctx := c.Request().Context()
 	wallet, err := handler.WalletUseCae.InsertWalletController(ctx, walletInsert, id)

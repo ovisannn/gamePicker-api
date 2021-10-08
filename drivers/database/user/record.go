@@ -36,9 +36,9 @@ type User_inventory struct {
 
 type Wallet struct {
 	Id_wallet   int
-	MoneySaved  int
-	MoneyTarget int
-	IndieWallet int
+	MoneySaved  float64
+	MoneyTarget float64
+	IndieWallet float64
 }
 
 // wishList
